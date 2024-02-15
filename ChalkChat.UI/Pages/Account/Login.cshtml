@@ -3,8 +3,19 @@
 @{
 }
 
-<form method="post">
-    <input type="text" placeholder="Username" asp-for="Username" />
-    <input type="password" placeholder="Password" asp-for="Password" />
-    <input type="submit" value="Log In" />
-</form>
+
+
+
+
+ 
+
+<div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-3">
+            <form method="post" style="display:flex; flex-direction:column;" class="">
+                <input type="text" placeholder="Username" asp-for="Username"  class="text-center"/>
+                <input type="password" placeholder="Password" asp-for="Password" class="mt-2 mb-2 text-center" />
+                <input type="submit" value="Log In"  class="btn btn-primary"/>
+            </form>
+
+        </div>
+ </div>

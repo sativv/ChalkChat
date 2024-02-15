@@ -2,8 +2,11 @@
 @model ChalkChat.UI.Pages.Account.RegisterModel
 @{
 }
-<form method="post">
-    <input type="text" placeholder="Username" asp-for="Username"/>
-    <input type="password" placeholder="Password" asp-for="Password" />
-    <input type="submit" value="Register" />
-</form>
+
+
+    <div class="w-25">
+        <form method="post" style="display:flex; flex-direction:column;" class="">
+            <input type="text" placeholder="Username" asp-for="Username"  class="text-center"/>
+            <input type="password" placeholder="Password" asp-for="Password" class="mt-2 mb-2 text-center" />
+            <input type="submit" value="Register"  class="btn btn-primary"/>
+        </form>

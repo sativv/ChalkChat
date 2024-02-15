@@ -1,0 +1,43 @@
+﻿@page
+@model ChalkChat.UI.Pages.Member.DetailsModel
+@{
+}
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <form method="post" class="d-flex">
+            <input type="text" placeholder="What's on your mind?" class="form-control mr-2" asp-for="MessageText" />
+            <input type="submit" value="Post!" class="btn btn-warning" />
+            <input type="hidden" value="@Model.SignedInUsername" name="currentUser" />
+        </form>
+    </div>
+</div>
+
+<div class="mt-5">
+    @foreach(var message in Model.messageList)
+    {
+        <div class="container mt-2 col-6 ">
+            <div class="card  border  border-3 @((message.Username == Model.SignedInUsername) ? " border-success" : "border-warning") ">
+                @if (message.Username == Model.SignedInUsername)
+                {
+                    <form method="post" asp-page="./messageboard" asp-page-handler="RemoveMessage" >
+                        <input type="hidden" name="id" value="@message.Id" />
+                           <button type="submit" class="btn btn-danger float-end">X</button>
+                      </form>
+                }
+         
+                <div class="card-body">
+                    <h1>@message.Message</h1>
+                </div>
+             
+                 
+            <div class="card-footer text-muted">
+                    <p>Posted By: @message.Username |<span> @message.PostDate</span></p>
+                
+                </div>
+                </div>
+            </div>
+
+    }
+</div>
+
+

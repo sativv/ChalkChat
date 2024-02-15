@@ -6,10 +6,12 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages(options => options.Conventions.AuthorizeFolder("/Member"));
+builder.Services.AddRazorPages(options => options.Conventions.AuthorizeFolder("/member"));
 
 var connectionStr = builder.Configuration.GetConnectionString("AuthConnection");
+var connectionStrTwo = builder.Configuration.GetConnectionString("DbConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionStr));
+builder.Services.AddDbContext<MessagesDbContext>(options => options.UseSqlServer(connectionStrTwo));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 
 

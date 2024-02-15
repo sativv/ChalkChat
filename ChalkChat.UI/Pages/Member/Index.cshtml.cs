@@ -23,7 +23,7 @@ namespace ChalkChat.UI.Pages.Member
         public async Task<IActionResult> OnPost()
         {
             await signInManager.SignOutAsync();
-            return RedirectToPage("account/login");
+            return RedirectToPage("/account/login");
         }
     }
 }
