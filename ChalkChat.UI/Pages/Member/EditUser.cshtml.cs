@@ -73,7 +73,7 @@ namespace ChalkChat.UI.Pages.Member
                 var passResult = await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
                 if (!passResult.Succeeded)
                 {
-                    throw new ApplicationException("Filaed to change password");
+                    throw new ApplicationException("Failed to change password");
                 }
 
 

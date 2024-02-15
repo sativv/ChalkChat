@@ -31,7 +31,7 @@ namespace ChalkChat.UI.Pages.Account
 
                 if (signInResult.Succeeded)
                 {
-                    return RedirectToPage("/Member/Index");
+                    return RedirectToPage("/Member/messageboard");
                 }
 
             }
