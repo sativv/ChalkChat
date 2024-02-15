@@ -38,7 +38,7 @@ namespace ChalkChat.UI.Pages.Account
                 var signInResult = await signInManager.PasswordSignInAsync(userToLogin, Password, false, false);
                 if (signInResult.Succeeded)
                 {
-                    return RedirectToPage("/Member/Index");
+                    return RedirectToPage("/Member/MessageBoard");
                 }
                 else
                 {

@@ -35,12 +35,11 @@ namespace ChalkChat.UI.Pages.Member
 
         public async Task OnPostAsync(string currentUser)
         {
-            if (Password != null && newPassword != null && newUsername != null)
+            if (Password != null && newPassword != null || newUsername != null)
             {
                 await UpdateUser(currentUser, Password, newPassword);
             }
         }
-
 
         public async Task UpdateUser(string signedInUsername, string currentPassword, string newPassword)
         {
@@ -53,26 +52,33 @@ namespace ChalkChat.UI.Pages.Member
             if (newUsername != null)
             {
                 user.UserName = newUsername;
-            }
-            var result = await userManager.UpdateAsync(user);
+                var result = await userManager.UpdateAsync(user);
 
-            if (!result.Succeeded)
+                if (!result.Succeeded)
+                {
+                    throw new ApplicationException("Failed to update username");
+                }
+            }
+
+
+            if (newPassword != null && currentPassword != null)
             {
-                throw new ApplicationException("Failed to update username");
-            }
+
+                var validPassword = await userManager.CheckPasswordAsync(user, currentPassword);
+                if (!validPassword)
+                {
+                    throw new ApplicationException("incorrect password");
+                }
+
+                var passResult = await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+                if (!passResult.Succeeded)
+                {
+                    throw new ApplicationException("Filaed to change password");
+                }
 
 
-            var validPassword = await userManager.CheckPasswordAsync(user, currentPassword);
-            if (!validPassword)
-            {
-                throw new ApplicationException("incorrect password");
             }
 
-            var passResult = await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
-            if (!passResult.Succeeded)
-            {
-                throw new ApplicationException("Filaed to change password");
-            }
         }
     }
 }

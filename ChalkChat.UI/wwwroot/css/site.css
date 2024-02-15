@@ -20,5 +20,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-image: url('../Images/Chalkboard.jpg'); 
+    background-size: cover;
 }

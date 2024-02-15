@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace ChalkChat.UI.Pages.Member
 {
     public class IndexModel : PageModel
-
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
@@ -15,15 +14,13 @@ namespace ChalkChat.UI.Pages.Member
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-        public void OnGet()
+        public IActionResult OnGet()
         {
-        }
-
-
-        public async Task<IActionResult> OnPost()
-        {
-            await signInManager.SignOutAsync();
+            signInManager.SignOutAsync();
             return RedirectToPage("/account/login");
         }
+
+
+
     }
 }

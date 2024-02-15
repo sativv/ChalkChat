@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChalkChat.UI", "ChalkChat.UI\ChalkChat.UI.csproj", "{0DD1D06D-1E75-4DC6-B248-DD3EF2061AB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChalkChat.UI", "ChalkChat.UI\ChalkChat.UI.csproj", "{0DD1D06D-1E75-4DC6-B248-DD3EF2061AB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChalkChat.Data", "ChalkChat.Data\ChalkChat.Data.csproj", "{0430BBC8-D696-473F-8202-3631BE8AC5F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChalkChat.Data", "ChalkChat.Data\ChalkChat.Data.csproj", "{0430BBC8-D696-473F-8202-3631BE8AC5F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChalkChat.App", "ChalkChat.App\ChalkChat.App.csproj", "{EF71C847-6BE6-43CB-BB52-8A1DE660B73B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChalkChat.App", "ChalkChat.App\ChalkChat.App.csproj", "{EF71C847-6BE6-43CB-BB52-8A1DE660B73B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
