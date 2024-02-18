@@ -9,6 +9,7 @@ namespace ChalkChat.UI.Pages.Account
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        public string ErrorMessage { get; set; }
 
         public string Username { get; set; }
         public string Password { get; set; }
@@ -35,6 +36,8 @@ namespace ChalkChat.UI.Pages.Account
                 }
 
             }
+
+            ErrorMessage = "Incorrect username or password";
             return Page();
         }
     }

@@ -1,17 +1,22 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace ChalkChat.UI.Pages.Account
 {
     [BindProperties]
+
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
-
+        [Required]
         public string? Username { get; set; }
+        [Required]
         public string? Password { get; set; }
+
+        public string ErrorMessage { get; set; }
 
         public RegisterModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
@@ -42,13 +47,14 @@ namespace ChalkChat.UI.Pages.Account
                 }
                 else
                 {
-                    // fel lösenord
+
                 }
             }
             else
             {
 
             }
+            ErrorMessage = "Invalid Username or Password";
             return Page();
 
 

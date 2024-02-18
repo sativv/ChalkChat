@@ -8,6 +8,10 @@
 <div class="row justify-content-center align-items-center min-vh-100">
     <div class="col-3">
         <form method="post" style="display:flex; flex-direction:column;" class="">
+            @if(Model.ErrorMessage != null)
+            {
+                <p class="text-danger">@Model.ErrorMessage</p>
+            }
             <input type="text" placeholder="@Model.SignedInUsername" asp-for="newUsername" class="text-center" />
             <input type="hidden" value="@Model.SignedInUsername" name="currentUser" />
             <input type="password" placeholder="Old Password" asp-for="Password" class="mt-2 mb-2 text-center" />

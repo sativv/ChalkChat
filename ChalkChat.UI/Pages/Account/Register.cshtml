@@ -10,8 +10,13 @@
         <div class="col-3">
             <h1 class="text-warning text-center mb-5 mt-5">Welcome to ChalkChat!</h1>
             <form method="post" style="display:flex; flex-direction:column;" >
-                <input type="text" placeholder="Username" asp-for="Username" class="text-center" />
+            @if(Model.ErrorMessage != null)
+            {
+                <p class="text-danger">@Model.ErrorMessage</p>
+            }
+            <input type="text" placeholder="Username" asp-for="Username" class="text-center" />
                 <input type="password" placeholder="Password" asp-for="Password" class="mt-3 mb-2 text-center" />
+                <p class="text-warning text-center">A number, capital letter and special character is required!</p>
                 <input type="submit" value="Register" class="btn btn-warning mt-5" />
             </form>
 

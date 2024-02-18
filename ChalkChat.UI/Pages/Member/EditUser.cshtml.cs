@@ -17,6 +17,7 @@ namespace ChalkChat.UI.Pages.Member
 
         public string? newUsername { get; set; }
         public string? newPassword { get; set; }
+        public string ErrorMessage { get; set; }
 
 
 
@@ -41,12 +42,13 @@ namespace ChalkChat.UI.Pages.Member
             }
         }
 
-        public async Task UpdateUser(string signedInUsername, string currentPassword, string newPassword)
+        public async Task<IActionResult> UpdateUser(string signedInUsername, string currentPassword, string newPassword)
         {
             var user = await userManager.FindByNameAsync(signedInUsername);
             if (user == null)
             {
-                throw new ApplicationException($"That user was not found");
+                user =
+                return Page();
             }
 
             if (newUsername != null)
@@ -54,11 +56,17 @@ namespace ChalkChat.UI.Pages.Member
                 user.UserName = newUsername;
                 var result = await userManager.UpdateAsync(user);
 
+
+
                 if (!result.Succeeded)
                 {
-                    throw new ApplicationException("Failed to update username");
+                    ErrorMessage = "Failed to update username";
+                    return Page();
+
                 }
+
             }
+
 
 
             if (newPassword != null && currentPassword != null)
@@ -67,18 +75,24 @@ namespace ChalkChat.UI.Pages.Member
                 var validPassword = await userManager.CheckPasswordAsync(user, currentPassword);
                 if (!validPassword)
                 {
-                    throw new ApplicationException("incorrect password");
+                    ErrorMessage = "That is not a valid password";
+                    return Page();
+
                 }
 
                 var passResult = await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
                 if (!passResult.Succeeded)
                 {
-                    throw new ApplicationException("Failed to change password");
+                    ErrorMessage = "Failed to update password";
+                    return Page();
                 }
+                ErrorMessage = "Password has been successfully updated!";
+                return Page();
 
 
             }
 
+            return Page();
         }
     }
 }

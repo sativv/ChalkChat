@@ -5,11 +5,20 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+});
+
 // Add services to the container.
 builder.Services.AddRazorPages(options => options.Conventions.AuthorizeFolder("/member"));
+builder.Services.AddRazorPages(options => options.Conventions.AuthorizeFolder("/Admin", "AdminPolicy"));
 
 var connectionStr = builder.Configuration.GetConnectionString("AuthConnection");
 var connectionStrTwo = builder.Configuration.GetConnectionString("DbConnection");
+
+
+
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionStr));
 builder.Services.AddDbContext<MessagesDbContext>(options => options.UseSqlServer(connectionStrTwo));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
