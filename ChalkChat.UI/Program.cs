@@ -1,4 +1,6 @@
+using ChalkChat.App.Managers;
 using ChalkChat.Data.Database;
+using ChalkChat.Data.Repos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,13 +16,19 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddRazorPages(options => options.Conventions.AuthorizeFolder("/member"));
 builder.Services.AddRazorPages(options => options.Conventions.AuthorizeFolder("/Admin", "AdminPolicy"));
 
+
+
+builder.Services.AddScoped<IMessageRepo, MessageRepo>();
+builder.Services.AddScoped<MessageManager>();
+builder.Services.AddScoped<UserManager>();
+
 var connectionStr = builder.Configuration.GetConnectionString("AuthConnection");
 var connectionStrTwo = builder.Configuration.GetConnectionString("DbConnection");
 
 
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionStr));
-builder.Services.AddDbContext<MessagesDbContext>(options => options.UseSqlServer(connectionStrTwo));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionStr, b => b.MigrationsAssembly("ChalkChat.UI")));
+builder.Services.AddDbContext<MessagesDbContext>(options => options.UseSqlServer(connectionStrTwo, b => b.MigrationsAssembly("ChalkChat.UI")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 
 

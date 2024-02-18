@@ -1,3 +1,4 @@
+using ChalkChat.App.Managers;
 using ChalkChat.Data.Database;
 using ChalkChat.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,7 @@ using Microsoft.Identity.Client;
 namespace ChalkChat.UI.Pages.Member
 {
     [BindProperties]
-    public class DetailsModel : PageModel
+    public class MessageBoardModel : PageModel
 
 
     {
@@ -19,62 +20,39 @@ namespace ChalkChat.UI.Pages.Member
 
         public List<MessageModel> messageList { get; set; } = new();
 
-
-
-        private readonly MessagesDbContext context;
         private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManage;
+        private readonly MessageManager messageManager;
 
-        public DetailsModel(MessagesDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManage)
+
+        public MessageBoardModel(UserManager<IdentityUser> userManager, MessageManager messageManager)
         {
-            this.context = context;
             this.userManager = userManager;
-            this.signInManage = signInManage;
+            this.messageManager = messageManager;
+
+
         }
-        public async void OnGet()
+        public async Task OnGet()
         {
-
-            messageList = context.Messages.OrderByDescending(msg => msg.PostDate).ToList();
-
+            messageList = await messageManager.GetAllMessagesAsync();
             SignedInUsername = HttpContext.User.Identity.Name;
+
+
         }
 
-        public IActionResult OnPostRemoveMessage(int id)
+        public async Task<IActionResult> OnPostRemoveMessage(int id)
         {
-            RemoveMessage(id);
+            await RemoveMessageAsync(id);
             return RedirectToPage();
 
         }
-        public void RemoveMessage(int id)
+        public async Task RemoveMessageAsync(int id)
         {
-            var messageToDelete = context.Messages.FirstOrDefault(msg => msg.Id == id);
-            if (messageToDelete != null)
-            {
-                context.Messages.Remove(messageToDelete);
-                context.SaveChanges();
-
-            }
-
-
+            await this.messageManager.RemoveMessage(id);
         }
 
-        public IActionResult OnPost(string currentUser)
+        public async Task<IActionResult> OnPostAsync(string currentUser, string messageText)
         {
-            if (MessageText != null)
-            {
-                MessageModel newMessage = new()
-                {
-                    Message = MessageText,
-                    PostDate = DateTime.Now,
-                    Username = currentUser,
-
-                };
-
-                context.Messages.Add(newMessage);
-                context.SaveChanges();
-
-
-            }
+            await this.messageManager.AddMessageAsync(currentUser, messageText);
             return RedirectToPage();
 
 

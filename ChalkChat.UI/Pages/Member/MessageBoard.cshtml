@@ -1,12 +1,12 @@
 ﻿@page
-@model ChalkChat.UI.Pages.Member.DetailsModel
+@model ChalkChat.UI.Pages.Member.MessageBoardModel
 @{
 }
 <div class="container">
     <div class="d-flex justify-content-center">
         <form method="post" class="d-flex">
-            <input type="text" placeholder="What's on your mind?" class="form-control mr-2" asp-for="MessageText" />
-            <input type="submit" value="Post!" class="btn btn-warning" />
+            <input type="text" placeholder="What's on your mind?" class="form-control mr-2 mt-5" asp-for="MessageText" />
+            <input type="submit" value="Post!" class="btn btn-warning mt-5" />
             <input type="hidden" value="@Model.SignedInUsername" name="currentUser" />
         </form>
     </div>

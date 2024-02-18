@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -21,15 +22,20 @@ namespace ChalkChat.UI.Pages.Member
 
 
 
+
         public EditUserModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+
         }
-        public void OnGet()
+        public async Task OnGetAsync()
         {
+
+
             //var signedInUser = userManager.GetUserAsync(HttpContext.User);
             SignedInUsername = HttpContext.User.Identity.Name;
+
 
 
         }
@@ -47,7 +53,7 @@ namespace ChalkChat.UI.Pages.Member
             var user = await userManager.FindByNameAsync(signedInUsername);
             if (user == null)
             {
-                user =
+
                 return Page();
             }
 
@@ -66,9 +72,6 @@ namespace ChalkChat.UI.Pages.Member
                 }
 
             }
-
-
-
             if (newPassword != null && currentPassword != null)
             {
 

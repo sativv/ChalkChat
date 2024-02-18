@@ -21,6 +21,8 @@ namespace ChalkChat.UI.Pages.Account
         }
         public void OnGet()
         {
+
+
         }
 
         public async Task<IActionResult> OnPostAsync()
