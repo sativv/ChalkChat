@@ -16,14 +16,18 @@
     @foreach(var message in Model.messageList)
     {
         <div class="container mt-2 col-6 ">
-            <div class="card  border  border-3  text-white bg-transparent @((message.Username == Model.SignedInUsername) ? " border-success" : "border-warning") ">
-                @if (message.Username == Model.SignedInUsername)
+            <div class="card  border  border-1  text-white @((message.Username == Model.SignedInUsername ) ? " border-success" : "border-warning")" style="background">
+                <div class="card-header d-flex justify-content-between ">
+                    <p class="">
+                        Posted By: @message.Username </p>
+                @if (message.Username == Model.SignedInUsername || Model.isAdmin)
                 {
                     <form method="post" asp-page="./messageboard" asp-page-handler="RemoveMessage" >
                         <input type="hidden" name="id" value="@message.Id" />
-                           <button type="submit" class="btn btn-danger float-end">X</button>
+                           <button type="submit" class="btn btn-danger float-end  ">X</button>
                       </form>
                 }
+                </div>
          
                 <div class="card-body">
                     <h1>@message.Message</h1>
@@ -31,7 +35,7 @@
              
                  
             <div class="card-footer border-top">
-                    <p class="">Posted By: @message.Username |<span> @message.PostDate</span></p>
+              <span> @message.PostDate</span>
                 
                 </div>
                 </div>

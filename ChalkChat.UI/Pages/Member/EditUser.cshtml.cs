@@ -1,15 +1,15 @@
 
+using ChalkChat.App.Managers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Identity.Client;
 
 namespace ChalkChat.UI.Pages.Member
 {
     [BindProperties]
     public class EditUserModel : PageModel
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager userManager;
         private readonly SignInManager<IdentityUser> signInManager;
 
 
@@ -23,7 +23,7 @@ namespace ChalkChat.UI.Pages.Member
 
 
 
-        public EditUserModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public EditUserModel(UserManager userManager, SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -31,71 +31,81 @@ namespace ChalkChat.UI.Pages.Member
         }
         public async Task OnGetAsync()
         {
-
-
-            //var signedInUser = userManager.GetUserAsync(HttpContext.User);
             SignedInUsername = HttpContext.User.Identity.Name;
-
-
-
         }
 
-        public async Task OnPostAsync(string currentUser)
+        public async Task OnPostAsync()
         {
-            if (Password != null && newPassword != null || newUsername != null)
+            bool passwordChanged = false;
+            if (Password != null && newPassword != null)
             {
-                await UpdateUser(currentUser, Password, newPassword);
+                ErrorMessage = await userManager.ChangePasswordAsync(HttpContext.User.Identity.Name, Password, newPassword);
+                if (ErrorMessage != null)
+                {
+                    RedirectToPage("/Member/EditUser", ErrorMessage);
+                }
+                passwordChanged = true;
             }
-        }
-
-        public async Task<IActionResult> UpdateUser(string signedInUsername, string currentPassword, string newPassword)
-        {
-            var user = await userManager.FindByNameAsync(signedInUsername);
-            if (user == null)
-            {
-
-                return Page();
-            }
-
             if (newUsername != null)
             {
-                user.UserName = newUsername;
-                var result = await userManager.UpdateAsync(user);
-
-
-
-                if (!result.Succeeded)
+                ErrorMessage = await userManager.ChangeUsernameAsync(newUsername, HttpContext.User.Identity.Name, passwordChanged ? newPassword : Password);
+                if (ErrorMessage != null)
                 {
-                    ErrorMessage = "Failed to update username";
-                    return Page();
-
+                    RedirectToPage("Member/EditUser", ErrorMessage);
                 }
-
-            }
-            if (newPassword != null && currentPassword != null)
-            {
-
-                var validPassword = await userManager.CheckPasswordAsync(user, currentPassword);
-                if (!validPassword)
-                {
-                    ErrorMessage = "That is not a valid password";
-                    return Page();
-
-                }
-
-                var passResult = await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
-                if (!passResult.Succeeded)
-                {
-                    ErrorMessage = "Failed to update password";
-                    return Page();
-                }
-                ErrorMessage = "Password has been successfully updated!";
-                return Page();
-
-
             }
 
-            return Page();
+
         }
+
+        //public async Task<IActionResult> UpdateUser(string signedInUsername, string currentPassword, string newPassword)
+        //{
+        //    var user = await userManager.FindByNameAsync(signedInUsername);
+        //    if (user == null)
+        //    {
+
+        //        return Page();
+        //    }
+
+        //    if (newUsername != null)
+        //    {
+        //        user.UserName = newUsername;
+        //        var result = await userManager.UpdateAsync(user);
+
+
+
+        //        if (!result.Succeeded)
+        //        {
+        //            ErrorMessage = "Failed to update username";
+        //            return Page();
+
+        //        }
+
+        //    }
+        //    if (newPassword != null && currentPassword != null)
+        //    {
+
+        //        var validPassword = await userManager.CheckPasswordAsync(user, currentPassword);
+        //        if (!validPassword)
+        //        {
+        //            ErrorMessage = "That is not a valid password";
+        //            return Page();
+
+        //        }
+
+        //        var passResult = await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+        //        if (!passResult.Succeeded)
+        //        {
+        //            ErrorMessage = "Failed to update password";
+        //            return Page();
+        //        }
+        //        ErrorMessage = "Password has been successfully updated!";
+        //        return Page();
+
+
+        //    }
+
+
     }
 }
+
